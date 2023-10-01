@@ -101,12 +101,18 @@ const Navbar = () => {
 
   const toggleMenuSolutions = () => {
     setIsOpenSolutions(!isOpenSolutions);
+    setIsOpenIndustries(false);
+    setIsOpenResourses(false);
   };
   const toggleMenuIndustries = () => {
     setIsOpenIndustries(!isOpenIndustries);
+    setIsOpenSolutions(false);
+    setIsOpenResourses(false);
   };
   const toggleMenuResourses = () => {
     setIsOpenResourses(!isOpenResourses);
+    setIsOpenSolutions(false);
+    setIsOpenIndustries(false);
   };
 
   const showMenu = () => {

@@ -1,78 +1,133 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./App.css";
 import Logo from "./LOGO.png";
 import { HamburgerIcon, AiIcon, DevIcon, UxIcon, XrIcon } from "./IconsHeader";
 
-const Products = [
-  {
-    id: "AI",
-    name: "Solutions",
-    description: [
-      "Artificial Inteligence",
-      "Sentiment Analysis",
-      "Process Optimization",
-      "Forecasting ",
-    ],
-    href: "#",
-    icon: AiIcon,
-  },
-  {
-    id: "Dev",
-    name: "Industries",
-    description: [
-      "Planning",
-      "Implementation",
-      "Reviews & Testing",
-      "Development ",
-    ],
-    href: "#",
-    icon: DevIcon,
-  },
-  {
-    id: "UX",
-    name: "Resources",
-    description: [
-      "Research & Design",
-      "Prototyping",
-      "User testing",
-      "Metrics ",
-    ],
-    href: "#",
-    icon: UxIcon,
-  },
+const NavList = {
+  Solutions: [
+    {
+      id: "AI",
+      name: "Solutions",
+      description: ["Artificial Inteligence", "Sentiment Analysis", "Process Optimization", "Forecasting ",], href: "https://ux.prossima.art", icon: AiIcon,},
+    {
+      id: "Dev",
+      name: "Industries",
+      description: ["Planning", "Implementation", "Reviews & Testing", "Development ",], href: "https://ux.prossima.art", icon: DevIcon,},
+    {
+      id: "UX",
+      name: "Resources",
+      description: ["Research & Design","Prototyping","User testing","Metrics ",], href: "https://ux.prossima.art", icon: UxIcon,},
+  
+    {
+      id: "VR",
+      name: "Resources",
+      description: ["VR applications","AR applications","Research & Design","User testing ",], href: "https://ux.prossima.art", icon: XrIcon,},
+  ],
+  Industries: [
+    {
+      name: "E-commerce and retail",
+      href: "#",
+    },
+    {
+      name: "Professional services",
+      href: "#",
+    },
 
-  {
-    id: "VR",
-    name: "Resources",
-    description: [
-      "VR applications",
-      "AR applications",
-      "Research & Design",
-      "User testing ",
-    ],
-    href: "#",
-    icon: XrIcon,
-  },
-];
+    {
+      name: "Technology and SaaS",
+      href: "#",
+    },
+    {
+      name: "Marketing",
+      href: "#",
+    },
+    {
+      name: "Food services",
+      href: "#",
+    },
+    {
+      name: "Healthcare",
+      href: "#",
+    },
+    {
+      name: "Education",
+      href: "#",
+    },
+    {
+      name: "Customer service",
+      href: "#",
+    },
+    {
+      name: "Finance and banking",
+      href: "#",
+    },
+  ],
+  Resources: [
+    {
+      name: "Research and Dissemination",
+      description: "News and articles about products and services",
+      href: "#",
+    },
+    {
+      name: "Security",
+      description: "Privacy Policy and Protection of your data",
+      href: "#",
+    },
+    {
+      name: "Customer support",
+      
+      href: "#",
+    },
+  ],
+}
+
+const DropDown = {
+  Solutions: "Solutions",
+  Industries: "Industries",
+  Resources: "Resources",
+};
+
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const [isShow, setIsShow] = useState(false);
+  const [isOpenSolutions, setIsOpenSolutions] = useState(false);
+  const [isOpenIndustries, setIsOpenIndustries] = useState(false);
+  const [isOpenResourses, setIsOpenResourses] = useState(false);
+  
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
+  const toggleMenuSolutions = () => {
+    setIsOpenSolutions(!isOpenSolutions);
+  };
+  const toggleMenuIndustries = () => {
+    setIsOpenIndustries(!isOpenIndustries);
+  };
+  const toggleMenuResourses = () => {
+    setIsOpenResourses(!isOpenResourses);
   };
 
   const showMenu = () => {
     setIsShow(!isShow);
   };
 
-  // const MenuRef = useRef();
-  // window.addEventListener("click", (e) => {
-  //   if (e.target !== MenuRef.current) {
-  //     setIsOpen(false);
-  //   }
-  // });
+  const ref = useRef();
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (ref.current && !ref.current.contains(event.target)) {
+        setIsOpenSolutions(false);
+        setIsOpenIndustries(false);
+        setIsOpenResourses(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [ref]);
+  
+
 
   return (
     <nav className="navbar">
@@ -80,38 +135,37 @@ const Navbar = () => {
         <img src={Logo} alt="Logo" />
       </div>
 
-      <ul className={`navbar-menu ${isOpen ? "navbar-menu-open" : ""}`}>
-        <li className="navbar-menu-item" onClick={toggleMenu}>
-          {Products[0].name}
+      <ul className={`navbar-menu ${isOpenSolutions ? "navbar-menu-open" : ""}`}>
+        <li className="navbar-menu-item" onClick={toggleMenuSolutions}>
+          {NavList.Solutions[0].name}
         </li>
-        <li className="navbar-menu-item" onClick={toggleMenu}>
-          {Products[1].name}
+        <li className="navbar-menu-item" onClick={toggleMenuIndustries}>
+          {NavList.Solutions[1].name}
         </li>
-        <li className="navbar-menu-item" onClick={toggleMenu}>
-          {Products[2].name}
+        <li className="navbar-menu-item" onClick={toggleMenuResourses}>
+          {NavList.Solutions[2].name}
         </li>
       </ul>
       <button className="navbar-contact-btn">Contact</button>
 
-      {/* Float Menu */}
+      {/* Float Menu SOLUTIONS*/}
       <div
         className={`navbar-flyout-menu ${
-          isOpen ? "navbar-flyout-menu-open" : ""
+          isOpenSolutions ? "navbar-flyout-menu-open" : ""
         }`}
       >
         <ul>
           <li
             className="adjustment"
-            
-            // ref={MenuRef}
-            onClick={() => {
-              setIsOpen(false);
-            }}
+            ref={ref}
+            // onClick={() => {
+            //   setIsOpenSolutions(false);
+            // }}
           >
-            {Products.map((item) => (
-              <div key={item.name} className="d-flex flex-row">
-                <div className="">
-                  <item.icon className="" aria-hidden="true" />
+            {NavList.Solutions.map((item) => (
+              <a href={item.href} target="_blank" key={item.name} className="d-flex flex-row" style={{textDecoration:"none", color:"#222"}}>
+                <div>
+                  <item.icon  aria-hidden="true" />
                 </div>
                 <div className="mx-auto">
                   <p className="d-flex flex-row justify-content-start">
@@ -127,6 +181,63 @@ const Navbar = () => {
                     {item.description[3]}
                   </p>
                 </div>
+              </a>
+            ))}
+          </li>
+        </ul>
+      </div>
+
+
+      
+      {/* Float Menu INDUSTRIES*/}
+      <div  
+        className={`navbar-flyout-menu ${
+          isOpenIndustries ? "navbar-flyout-menu-open" : ""
+        }`
+      }
+      >
+        <a href="/industries" style={{textDecoration:"none", fontSize: "1.2rem", color:"#222"}}>{DropDown.Industries}</a>
+        <ul style={ {height: "auto", columns: "3", columnGap: "1rem", alignItems: "baseline", justifyContent: "baseline", textDecoration:"none"}}>
+          
+          <li
+            ref={ref}
+            onClick={() => {
+              setIsOpenIndustries(false);
+            }}
+          >
+            
+            {NavList.Industries.map((item) => (
+              <div key={item.name} style={{paddingBottom: "1rem", color:"#222"}} >
+                  <a href={item.href} style={{textDecoration:"none", color:"#222"}}>{item.name}</a>   
+              </div>
+            ))}
+          </li>
+        </ul>
+      </div>
+
+      {/* Float Menu Resourses*/}
+      <div   style={ {height: "auto", width:"auto", textDecoration:"none"}}
+        className={`navbar-flyout-menu ${
+          isOpenResourses ? "navbar-flyout-menu-open" : ""
+        }`
+      }
+      >
+        <a href="/Resources" style={{textDecoration:"none", fontSize: "1.2rem", paddingBottom: "1rem", color:"#222"}}>{DropDown.Resources}</a>
+        <ul style={ {columns: "3", columnGap: "1rem", alignItems: "baseline", justifyContent: "baseline"
+          , textDecoration:"none"}}>
+          
+          <li
+          
+            ref={ref}
+            onClick={() => {
+              setIsOpenResourses(false);
+            }}
+          >
+            
+            {NavList.Resources.map((item) => (
+              <div key={item.name} style={{paddingBottom: "1rem"}} >
+                  <a href={item.href} style={{textDecoration:"none", color:"#222"}}>{item.name}</a>   
+                  <div style={{textDecoration:"none", fontSize: "1rem", color:"#7F7B7B"}}>{item.description}</div>
               </div>
             ))}
           </li>

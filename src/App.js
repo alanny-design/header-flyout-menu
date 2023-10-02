@@ -3,88 +3,6 @@ import "./App.css";
 import Logo from "./LOGO.png";
 import { HamburgerIcon, AiIcon, DevIcon, UxIcon, XrIcon } from "./IconsHeader";
 
-const NavList = {
-  Solutions: [
-    {
-      id: "AI",
-      name: "Solutions",
-      description: ["Artificial Inteligence", "Sentiment Analysis", "Process Optimization", "Forecasting ",], href: "https://ux.prossima.art", icon: AiIcon,
-    },
-    {
-      id: "Dev",
-      name: "Industries",
-      description: ["Planning", "Implementation", "Reviews & Testing", "Development ",], href: "https://ux.prossima.art", icon: DevIcon,
-    },
-    {
-      id: "UX",
-      name: "Resources",
-      description: ["Research & Design", "Prototyping", "User testing", "Metrics ",], href: "https://ux.prossima.art", icon: UxIcon,
-    },
-
-    {
-      id: "VR",
-      name: "Resources",
-      description: ["VR applications", "AR applications", "Research & Design", "User testing ",], href: "https://ux.prossima.art", icon: XrIcon,
-    },
-  ],
-  Industries: [
-    {
-      name: "E-commerce and retail",
-      href: "#",
-    },
-    {
-      name: "Professional services",
-      href: "#",
-    },
-
-    {
-      name: "Technology and SaaS",
-      href: "#",
-    },
-    {
-      name: "Marketing",
-      href: "#",
-    },
-    {
-      name: "Food services",
-      href: "#",
-    },
-    {
-      name: "Healthcare",
-      href: "#",
-    },
-    {
-      name: "Education",
-      href: "#",
-    },
-    {
-      name: "Customer service",
-      href: "#",
-    },
-    {
-      name: "Finance and banking",
-      href: "#",
-    },
-  ],
-  Resources: [
-    {
-      name: "Research and Dissemination",
-      description: "News and articles about products and services",
-      href: "#",
-    },
-    {
-      name: "Security",
-      description: "Privacy Policy and Protection of your data",
-      href: "#",
-    },
-    {
-      name: "Customer support",
-
-      href: "#",
-    },
-  ],
-}
-
 const DropDown = {
   Solutions: "Solutions",
   Industries: "Industries",
@@ -97,7 +15,6 @@ const Navbar = () => {
   const [isOpenSolutions, setIsOpenSolutions] = useState(false);
   const [isOpenIndustries, setIsOpenIndustries] = useState(false);
   const [isOpenResourses, setIsOpenResourses] = useState(false);
-
 
   const toggleMenuSolutions = () => {
     setIsOpenSolutions(!isOpenSolutions);
@@ -114,6 +31,92 @@ const Navbar = () => {
     setIsOpenSolutions(false);
     setIsOpenIndustries(false);
   };
+
+  const NavList = {
+    Solutions: [
+      {
+        id: "AI",
+        name: "Solutions",
+        description: ["Artificial Inteligence", "Sentiment Analysis", "Process Optimization", "Forecasting ",], href: "https://ux.prossima.art", icon: AiIcon,
+        click: toggleMenuSolutions,
+      },
+      {
+        id: "Dev",
+        name: "Industries",
+        description: ["Planning", "Implementation", "Reviews & Testing", "Development ",], href: "https://ux.prossima.art", icon: DevIcon,
+        click: toggleMenuIndustries,
+      },
+      {
+        id: "UX",
+        name: "Resources",
+        description: ["Research & Design", "Prototyping", "User testing", "Metrics ",], href: "https://ux.prossima.art", icon: UxIcon,
+        click: toggleMenuResourses,
+      },
+      {
+        id: "VR",
+        name: "VRresources",
+        description: ["VR applications", "AR applications", "Research & Design", "User testing ",], href: "https://ux.prossima.art", icon: XrIcon,
+        click: toggleMenuResourses,
+
+      },
+    ],
+    Industries: [
+      {
+        name: "E-commerce and retail",
+        href: "#",
+      },
+      {
+        name: "Professional services",
+        href: "#",
+      },
+
+      {
+        name: "Technology and SaaS",
+        href: "#",
+      },
+      {
+        name: "Marketing",
+        href: "#",
+      },
+      {
+        name: "Food services",
+        href: "#",
+      },
+      {
+        name: "Healthcare",
+        href: "#",
+      },
+      {
+        name: "Education",
+        href: "#",
+      },
+      {
+        name: "Customer service",
+        href: "#",
+      },
+      {
+        name: "Finance and banking",
+        href: "#",
+      },
+    ],
+    Resources: [
+      {
+        name: "Research and Dissemination",
+        description: "News and articles about products and services",
+        href: "#",
+      },
+      {
+        name: "Security",
+        description: "Privacy Policy and Protection of your data",
+        href: "#",
+      },
+      {
+        name: "Customer support",
+
+        href: "#",
+      },
+    ],
+  }
 
   const showMenu = () => {
     setIsShow(!isShow);

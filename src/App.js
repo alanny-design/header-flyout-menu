@@ -170,18 +170,19 @@ const Navbar = () => {
       <div className="navbar-logo">
         <img src={Logo} alt="Logo" />
       </div>
-      {!isMobile &&
+      {!isMobile && (
         <ul className={`navbar-menu ${isOpenSolutions ? "navbar-menu-open" : ""}`}>
-          <li className="navbar-menu-item" onClick={toggleMenuSolutions}>
-            {NavList.Solutions[0].name}
-          </li>
-          <li className="navbar-menu-item" onClick={toggleMenuIndustries}>
-            {NavList.Solutions[1].name}
-          </li>
-          <li className="navbar-menu-item" onClick={toggleMenuResourses}>
-            {NavList.Solutions[2].name}
-          </li>
-        </ul>}
+          {NavList.Solutions.map((item, index) => (
+            <li
+              key={item.id}
+              className="navbar-menu-item"
+              onClick={item.click}
+            >
+              {item.name}
+            </li>
+          ))}
+        </ul>
+      )}
       <button className="navbar-contact-btn">Contact</button>
 
       <div

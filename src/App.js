@@ -123,13 +123,31 @@ const Navbar = () => {
   const refIndustries = useRef();
   const refResources = useRef();
 
+  const refMobileMenu = useRef();
+  const [tamanhoTela, setTamanhoTela] = useState(window.innerWidth);
+
+  useEffect(() => {
+    function handleResize() {
+      setTamanhoTela(window.innerWidth);
+    }
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  const isMobile = tamanhoTela <= 768;
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
-        !refSolutions.current.contains(event.target) &&
-        !refIndustries.current.contains(event.target) &&
-        !refResources.current.contains(event.target) &&
-        !document.querySelector('.navbar-menu').contains(event.target)
+        !refSolutions.current?.contains(event.target) &&
+        !refIndustries.current?.contains(event.target) &&
+        !refResources.current?.contains(event.target) &&
+        !refMobileMenu.current?.contains(event.target) &&
+        !(isMobile && document.querySelector('.hamburger-menu').contains(event.target))
       ) {
         setIsOpenSolutions(false);
         setIsOpenIndustries(false);
@@ -142,30 +160,27 @@ const Navbar = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [refSolutions, refIndustries, refResources]);
-
-
+  }, [refSolutions, refIndustries, refResources, refMobileMenu, isMobile]);
 
   return (
     <nav className="navbar">
       <div className="navbar-logo">
         <img src={Logo} alt="Logo" />
       </div>
-
-      <ul className={`navbar-menu ${isOpenSolutions ? "navbar-menu-open" : ""}`}>
-        <li className="navbar-menu-item" onClick={toggleMenuSolutions}>
-          {NavList.Solutions[0].name}
-        </li>
-        <li className="navbar-menu-item" onClick={toggleMenuIndustries}>
-          {NavList.Solutions[1].name}
-        </li>
-        <li className="navbar-menu-item" onClick={toggleMenuResourses}>
-          {NavList.Solutions[2].name}
-        </li>
-      </ul>
+      {!isMobile &&
+        <ul className={`navbar-menu ${isOpenSolutions ? "navbar-menu-open" : ""}`}>
+          <li className="navbar-menu-item" onClick={toggleMenuSolutions}>
+            {NavList.Solutions[0].name}
+          </li>
+          <li className="navbar-menu-item" onClick={toggleMenuIndustries}>
+            {NavList.Solutions[1].name}
+          </li>
+          <li className="navbar-menu-item" onClick={toggleMenuResourses}>
+            {NavList.Solutions[2].name}
+          </li>
+        </ul>}
       <button className="navbar-contact-btn">Contact</button>
 
-      {/* Float Menu SOLUTIONS*/}
       <div
         ref={refSolutions}
         className={`navbar-flyout-menu ${isOpenSolutions ? "navbar-flyout-menu-open" : ""
@@ -174,35 +189,13 @@ const Navbar = () => {
         <ul>
           <li
             className="adjustment"
-          // onClick={() => {
-          //   setIsOpenSolutions(false);
-          // }}
           >
             {NavList.Solutions.map((item) => (
-              <a href={item.href} target="_blank" key={item.name} className="d-flex flex-row" style={{ textDecoration: "none", color: "#222" }}>
-                <div>
-                  <item.icon aria-hidden="true" />
-                </div>
-                <div className="mx-auto">
-                  <p className="d-flex flex-row justify-content-start">
-                    {item.description[0]}
-                  </p>
-                  <p className="d-flex flex-row justify-content-start">
-                    {item.description[1]}
-                  </p>
-                  <p className="d-flex flex-row justify-content-start">
-                    {item.description[2]}
-                  </p>
-                  <p className="d-flex flex-row justify-content-start">
-                    {item.description[3]}
-                  </p>
-                </div>
-              </a>
+              <a href={item.href} target="_blank" key={item.name} className="d-flex flex-row" style={{ textDecoration: "none", color: "#222" }}> <div> <item.icon aria-hidden="true" /> </div> <div className="mx-auto"> <p className="d-flex flex-row justify-content-start"> {item.description[0]} </p> <p className="d-flex flex-row justify-content-start"> {item.description[1]} </p> <p className="d-flex flex-row justify-content-start"> {item.description[2]} </p> <p className="d-flex flex-row justify-content-start"> {item.description[3]} </p> </div> </a>
             ))}
           </li>
         </ul>
       </div>
-      {/* Float Menu INDUSTRIES*/}
       <div
         ref={refIndustries}
         className={`navbar-flyout-menu ${isOpenIndustries ? "navbar-flyout-menu-open" : ""
@@ -224,7 +217,6 @@ const Navbar = () => {
           </li>
         </ul>
       </div>
-      {/* Float Menu Resourses*/}
       <div style={{ height: "auto", width: "auto", textDecoration: "none" }}
         ref={refResources}
         className={`navbar-flyout-menu ${isOpenResourses ? "navbar-flyout-menu-open" : ""
@@ -251,39 +243,57 @@ const Navbar = () => {
           </li>
         </ul>
       </div>
-      {/* Hamburger Menu */}
       <ul className={`hamburger-menu ${isShow ? "hamburger-menu-open" : ""}`}>
         <li className="hamburger-menu-item" onClick={showMenu}>
           <HamburgerIcon />
         </li>
       </ul>
-
       <div
+        ref={refMobileMenu}
         className={`navbar-show-menu ${isShow ? "navbar-show-menu-open" : ""}`}
       >
-        <ul>
-          <li
-            onClick={() => {
-              setIsShow(false);
-            }}
-          >
-            Menu Item 1
-          </li>
-          <li
-            onClick={() => {
-              setIsShow(false);
-            }}
-          >
-            Menu Item 2
-          </li>
-          <li
-            onClick={() => {
-              setIsShow(false);
-            }}
-          >
-            Menu Item 3
-          </li>
-        </ul>
+        {isMobile && (
+          <ul>
+            {NavList.Solutions.map((item) => (
+              <li key={item.id}>
+                <a href={item.href} style={{ textDecoration: "none", color: "#222" }}>
+                  <p className="title-mobile">{item.id.toLocaleUpperCase()}</p>
+                  <span>{item.description}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
+        {isMobile && (
+          <>
+            <p className="title-mobile">{DropDown.Industries}</p>
+            <ul>
+              {NavList.Industries.map((item) => (
+                <li key={item.name}>
+                  <a href={item.href} style={{ textDecoration: "none", color: "#222" }}>
+                    {item.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
+        {isMobile && (
+          <>
+            <p className="title-mobile">{DropDown.Resources}</p>
+
+            <ul>
+              {NavList.Resources.map((item) => (
+                <li key={item.name}>
+                  <a href={item.href} style={{ textDecoration: "none", color: "#222" }}>
+                    <p>{item.name}</p>
+                    <span>{item.description}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
       </div>
     </nav>
   );
